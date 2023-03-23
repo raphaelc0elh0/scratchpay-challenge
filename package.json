@@ -5,8 +5,8 @@
   "description": "Scrathpay challenge",
   "license": "ISC",
   "scripts": {
-    "start": "node ./build/app.js",
-    "dev": "tsx watch ./src/app.ts",
+    "start": "node ./build/server.js",
+    "dev": "tsx watch ./src/server.ts",
     "build": "tsc",
     "test": "jest"
   },
