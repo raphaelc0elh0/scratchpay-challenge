@@ -35,7 +35,32 @@ paths:
           description: List of clinics
 
 components:
+  responses:
+    BadRequest:
+      description: One or more invalid parameters
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - properties:
+                    details:
+                      type: array
+                      description: Validations errors
+                      items:
+                        type: string
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          description: HTTP status code
+        code:
+          type: string
+          description: System error code
     Clinic:
       type: object
       properties:
