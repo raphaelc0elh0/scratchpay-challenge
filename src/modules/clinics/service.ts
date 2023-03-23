@@ -28,7 +28,7 @@ export class ClinicsService {
     if(available_at){
       clinics = clinics.filter(c => {
         return moment(available_at, "HH:mm")
-          .isBetween(moment(c.opening.from, "HH:mm"), moment(c.opening.to, "HH:mm"))
+          .isBetween(moment(c.opening.from, "HH:mm"), moment(c.opening.to, "HH:mm"), undefined, "[]")
       })
     }
 
