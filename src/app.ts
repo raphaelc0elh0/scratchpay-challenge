@@ -1,10 +1,9 @@
 import express from 'express';
+import router from './api/router'
 
 const app = express();
 
-app.get("/", async (req, res) => {
-  res.send('Hello world')
-})
+app.use(router)
 
 app.listen(4000, () => {
   console.log(`server running on port 4000`);

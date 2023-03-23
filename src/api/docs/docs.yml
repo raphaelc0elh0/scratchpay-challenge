@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: Scratchpay
+  version: 0.0.1
+
+paths:
+  /clinics:
+    get:
+      tags:
+        - 'clinics'
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: ['vet', 'dental']
+        - name: name
+          in: query
+          schema:
+            type: string
+            example: 'Good Health Clinic'
+        - name: state
+          in: query
+          schema:
+            type: string
+            example: 'CA'
+        - name: opening.from
+          in: query
+          schema:
+            type: string
+            example: '08:00'
+        - name: opening.to
+          in: query
+          schema:
+            type: string
+            example: '18:00'
+      responses:
+        200:
+          description: List of clinics
+
+components:
+  schemas:
+    Clinic:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: ['dental', 'vet']
+        name:
+          type: string
+        state:
+          type: string
+        opening:
+          type: object
+          properties:
+            from:
+              type: string
+              example: '08:00'
+            to:
+              type: string
+              example: '18:00'
+
+
