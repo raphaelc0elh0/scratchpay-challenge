@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { BaseError } from 'shared/errors/BaseError';
 
-export const errorHandler = (error: Error, request: Request, response: Response) => {
+export const errorHandler = (error: Error, request: Request, response: Response, next: NextFunction) => {
   let status = 500;
 
   const json: ErrorResponse = {
@@ -16,7 +16,7 @@ export const errorHandler = (error: Error, request: Request, response: Response)
     if (error.details) json.details = error.details;
   }
 
-  console.log(error);
+  console.log('ERROR', error);
   return response.status(status).json(json);
 };
 
