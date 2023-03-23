@@ -1,30 +1,29 @@
-import axios, { AxiosInstance } from "axios";
 import states from "utils/states";
-import { DentalClinic, ExternalClinic, VetClinic } from "./schema";
+import { ExternalClinic } from "./schema";
 import moment from 'moment'
+import { ClinicsRepository } from "./repository";
 
 export class ClinicsService {
 
-  async list(filters: ListFilters){
+  async list({type, name, state, available_at}: ListFilters){
     let clinics: ExternalClinic[] = []
 
-    if(filters.type === 'vet'){
-      const {data: vetClinics} = await this.client.get<VetClinic[]>('/vet-clinics.json')
-      clinics = vetClinics.map(({clinicName, stateCode, opening}) => ({name: clinicName, state: states[stateCode], opening}))
+    if(type === 'vet'){
+      clinics = await this.repository.getVetClinics()
     }
 
-    if(filters.type === 'dental'){
-      const {data: dentalClinics} = await this.client.get<DentalClinic[]>('/dental-clinics.json')
-      clinics = dentalClinics.map(({name, stateName, availability}) => ({name, state: stateName, opening:availability}))
+    if(type === 'dental'){
+      clinics = await this.repository.getDentalClinics()
     }
 
-    const {name, state, available_at} = filters
     if(name){
       clinics = clinics.filter(c => c.name.toLowerCase().includes(name.toLowerCase().trim()))
     }
+    
     if(state){
       clinics = clinics.filter(c => c.state === states[state])
     }
+
     if(available_at){
       clinics = clinics.filter(c => {
         return moment(available_at, "HH:mm")
@@ -35,13 +34,9 @@ export class ClinicsService {
     return clinics
   }
 
-  constructor(){
-    this.client = axios.create({
-      baseURL: 'https://storage.googleapis.com/scratchpay-code-challenge'
-    })
-  }
-
-  private client: AxiosInstance
+  constructor(
+    private repository = new ClinicsRepository()
+  ){}
 }
 
 export type ListFilters = {
