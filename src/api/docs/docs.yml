@@ -25,16 +25,11 @@ paths:
           schema:
             type: string
             example: 'CA'
-        - name: opening.from
+        - name: available_at
           in: query
           schema:
             type: string
             example: '08:00'
-        - name: opening.to
-          in: query
-          schema:
-            type: string
-            example: '18:00'
       responses:
         200:
           description: List of clinics
