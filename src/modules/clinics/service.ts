@@ -20,7 +20,7 @@ export class ClinicsService {
 
     const {name, state, available_at} = filters
     if(name){
-      clinics = clinics.filter(c => c.name.toLowerCase() === name.toLowerCase())
+      clinics = clinics.filter(c => c.name.toLowerCase().includes(name.toLowerCase().trim()))
     }
     if(state){
       clinics = clinics.filter(c => c.state === states[state])
